@@ -87,7 +87,7 @@ iframe{flex:1;border:none;background:#fff;}
       <div class="field"><label>Sq Ft</label><input type="text" id="sqft" value="1,307"></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>Lot Size</label><input type="text" id="lot" value=".052 ac"></div>
+      <div class="field"><label>Lot Size (details only)</label><input type="text" id="lot" value=".052 ac"></div>
       <div class="field"><label>Year Built</label><input type="text" id="year" value="2026"></div>
       <div class="field"><label>Garage</label><input type="text" id="garage" value="1-Car"></div>
     </div>
@@ -393,6 +393,15 @@ function buildPageHTML() {
 
   var origPriceHTML = showOrig ? '<div style="font-size:14px;opacity:0.65;text-decoration:line-through;margin-bottom:4px;">' + origPrice + '</div>' : '';
 
+  // specs bar — 5 items, NO lot size
+  var specsBar = '<div style="display:flex;background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:20px;gap:0;margin-bottom:28px;">'
+    + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + beds + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Bedrooms</div></div>'
+    + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + baths + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Bathrooms</div></div>'
+    + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + sqft + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Sq Ft</div></div>'
+    + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + yr + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Year Built</div></div>'
+    + '<div style="flex:1;text-align:center;"><div style="font-size:22px;font-weight:700;color:#111827;">' + hoa + '/mo</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">HOA Dues</div></div>'
+    + '</div>';
+
   return '<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">\n'
     + '<title>' + addr + ' - ' + community + '</title>\n'
     + '<style>\n'
@@ -410,11 +419,6 @@ function buildPageHTML() {
     + '.hero-city{font-size:15px;opacity:0.8;}\n'
     + '.rate-pill{display:inline-block;background:#fff;color:#1B4F8A;font-size:13px;font-weight:700;padding:6px 14px;border-radius:20px;margin-top:6px;}\n'
     + '.main{max-width:960px;margin:0 auto;padding:36px 24px 60px;}\n'
-    + '.specs-bar{display:flex;background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:20px;gap:0;margin-bottom:28px;}\n'
-    + '.spec-item{flex:1;text-align:center;}\n'
-    + '.spec-item:not(:last-child){border-right:1px solid #E5E7EB;}\n'
-    + '.spec-val{font-size:22px;font-weight:700;color:#111827;}\n'
-    + '.spec-lab{font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;}\n'
     + '.section-title{font-size:20px;font-weight:700;color:#111827;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #E5E7EB;}\n'
     + '.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 32px;margin-bottom:32px;}\n'
     + '.detail-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F3F4F6;font-size:13px;}\n'
@@ -432,14 +436,7 @@ function buildPageHTML() {
     + '<div class="rate-pill">&#9889; ' + rate + ' Rate Available</div></div>'
     + '</div></div>\n'
     + '<div class="main">'
-    + '<div class="specs-bar">'
-    + '<div class="spec-item"><div class="spec-val">' + beds + '</div><div class="spec-lab">Bedrooms</div></div>'
-    + '<div class="spec-item"><div class="spec-val">' + baths + '</div><div class="spec-lab">Bathrooms</div></div>'
-    + '<div class="spec-item"><div class="spec-val">' + sqft + '</div><div class="spec-lab">Sq Ft</div></div>'
-    + '<div class="spec-item"><div class="spec-val">' + lot + '</div><div class="spec-lab">Lot Size</div></div>'
-    + '<div class="spec-item"><div class="spec-val">' + yr + '</div><div class="spec-lab">Year Built</div></div>'
-    + '<div class="spec-item"><div class="spec-val">' + hoa + '/mo</div><div class="spec-lab">HOA Dues</div></div>'
-    + '</div>'
+    + specsBar
     + rateHTML
     + incHTML
     + '<h2 class="section-title">About This Home</h2>'
