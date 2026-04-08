@@ -5,50 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Listing Card Generator</title>
 <style>
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #F3F4F6; font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px 20px; }
   h1 { text-align: center; font-size: 20px; color: #1B4F8A; margin-bottom: 6px; font-weight: 700; }
   .subtitle { text-align: center; font-size: 13px; color: #6B7280; margin-bottom: 30px; }
-
   .layout { display: flex; gap: 40px; justify-content: center; align-items: flex-start; flex-wrap: wrap; }
-
-  /* ── EDITOR PANEL ── */
   .editor { width: 340px; background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
   .editor h2 { font-size: 13px; font-weight: 700; color: #374151; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #E5E7EB; }
   .field { margin-bottom: 14px; }
   .field label { display: block; font-size: 11px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; }
-  .field input[type="text"],
-  .field input[type="number"],
-  .field select { width: 100%; padding: 8px 10px; border: 1px solid #D1D5DB; border-radius: 7px; font-size: 13px; color: #111827; outline: none; transition: border 0.15s; }
+  .field input[type="text"], .field select { width: 100%; padding: 8px 10px; border: 1px solid #D1D5DB; border-radius: 7px; font-size: 13px; color: #111827; outline: none; font-family: inherit; }
   .field input:focus, .field select:focus { border-color: #1B4F8A; }
   .field-row { display: flex; gap: 10px; }
   .field-row .field { flex: 1; }
-  .photo-area { border: 2px dashed #D1D5DB; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: border-color 0.15s; margin-bottom: 14px; }
-  .photo-area:hover { border-color: #1B4F8A; }
-  .photo-area input { display: none; }
-  .photo-area .icon { font-size: 24px; margin-bottom: 6px; color: #9CA3AF; }
+  .photo-area { border: 2px dashed #D1D5DB; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; margin-bottom: 14px; }
   .photo-area p { font-size: 12px; color: #6B7280; }
   .photo-area p span { color: #1B4F8A; font-weight: 600; }
   .photo-preview { width: 100%; height: 100px; object-fit: cover; border-radius: 6px; margin-top: 8px; display: none; }
-
   .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .toggle-row label { font-size: 12px; color: #374151; font-weight: 500; }
   .toggle { position: relative; width: 36px; height: 20px; }
   .toggle input { opacity: 0; width: 0; height: 0; }
-  .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #D1D5DB; border-radius: 20px; cursor: pointer; transition: 0.2s; }
-  .slider:before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s; }
+  .slider { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #D1D5DB; border-radius: 20px; cursor: pointer; transition: .2s; }
+  .slider:before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .2s; }
   input:checked + .slider { background: #1B4F8A; }
   input:checked + .slider:before { transform: translateX(16px); }
-
-  .btn-update { width: 100%; background: #1B4F8A; color: #fff; border: none; border-radius: 9px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 6px; letter-spacing: 0.2px; transition: background 0.15s; }
+  .disc-preview { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+  .disc-preview p { font-size: 10px; color: #92400E; line-height: 1.6; }
+  .disc-preview strong { font-weight: 700; display: block; margin-bottom: 4px; font-size: 11px; }
+  .btn-update { width: 100%; background: #1B4F8A; color: #fff; border: none; border-radius: 9px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 6px; }
   .btn-update:hover { background: #163f6e; }
-  .btn-download { width: 100%; background: #fff; color: #1B4F8A; border: 2px solid #1B4F8A; border-radius: 9px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: all 0.15s; }
+  .btn-download { width: 100%; background: #fff; color: #1B4F8A; border: 2px solid #1B4F8A; border-radius: 9px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 10px; }
   .btn-download:hover { background: #EFF6FF; }
-
-  /* ── CARD ── */
   .card-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
   .card-label { font-size: 11px; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.8px; }
-
   .card { width: 380px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
   .img-wrap { position: relative; height: 230px; overflow: hidden; background: #1a2e44; }
   .prop-img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -61,7 +52,7 @@
   .card-body { padding: 18px 20px 20px; }
   .comm { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #1B4F8A; margin-bottom: 5px; }
   .addr { font-size: 18px; font-weight: 700; color: #111827; line-height: 1.2; margin-bottom: 2px; }
-  .city { font-size: 13px; color: #6B7280; margin-bottom: 12px; }
+  .city-line { font-size: 13px; color: #6B7280; margin-bottom: 12px; }
   .price-row { display: flex; align-items: baseline; gap: 9px; margin-bottom: 14px; }
   .price-main { font-size: 26px; font-weight: 700; color: #111827; }
   .price-orig { font-size: 13px; color: #9CA3AF; text-decoration: line-through; }
@@ -76,8 +67,9 @@
   .inc-icon { width: 26px; height: 26px; min-width: 26px; background: #1B4F8A; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
   .inc-text { font-size: 11.5px; color: #1e40af; font-weight: 500; line-height: 1.45; }
   .inc-text b { font-weight: 700; }
-  .cta-btn { display: block; width: 100%; background: #1B4F8A; color: #fff; border: none; border-radius: 9px; padding: 12px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; }
-  .disc { font-size: 9px; color: #9CA3AF; margin-top: 9px; line-height: 1.5; text-align: center; }
+  .cta-btn { display: block; width: 100%; background: #1B4F8A; color: #fff; border: none; border-radius: 9px; padding: 12px; font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; text-decoration: none; }
+  .disc { font-size: 9px; color: #9CA3AF; margin-top: 9px; line-height: 1.6; text-align: center; }
+
 </style>
 </head>
 <body>
@@ -87,61 +79,37 @@
 
 <div class="layout">
 
-  <!-- EDITOR -->
   <div class="editor">
     <h2>Property Details</h2>
 
     <div class="photo-area" onclick="document.getElementById('photoInput').click()">
       <input type="file" id="photoInput" accept="image/*" onchange="loadPhoto(event)">
-      <div class="icon">&#128247;</div>
       <p><span>Click to upload</span> property photo</p>
       <img id="photoPreview" class="photo-preview" alt="preview" />
     </div>
 
-    <div class="field">
-      <label>Community / Project Name</label>
-      <input type="text" id="community" value="Salishan · SE Tacoma" />
-    </div>
-    <div class="field">
-      <label>Street Address</label>
-      <input type="text" id="address" value="4749 Court R" />
-    </div>
-    <div class="field">
-      <label>City, State ZIP</label>
-      <input type="text" id="city" value="Tacoma, WA 98404" />
-    </div>
-
+    <div class="field"><label>Community / Project Name</label><input type="text" id="community" value="Salishan - SE Tacoma" /></div>
+    <div class="field"><label>Street Address</label><input type="text" id="address" value="4749 Court R" /></div>
+    <div class="field"><label>City, State ZIP</label><input type="text" id="city" value="Tacoma, WA 98404" /></div>
     <div class="field-row">
-      <div class="field">
-        <label>List Price</label>
-        <input type="text" id="price" value="469,000" />
-      </div>
-      <div class="field">
-        <label>Original Price (optional)</label>
-        <input type="text" id="origPrice" value="495,000" />
-      </div>
+      <div class="field"><label>List Price</label><input type="text" id="price" value="469,000" /></div>
+      <div class="field"><label>Original Price</label><input type="text" id="origPrice" value="495,000" /></div>
     </div>
-
     <div class="field-row">
-      <div class="field">
-        <label>Beds</label>
-        <input type="text" id="beds" value="3" />
-      </div>
-      <div class="field">
-        <label>Baths</label>
-        <input type="text" id="baths" value="2.5" />
-      </div>
-      <div class="field">
-        <label>Sq Ft</label>
-        <input type="text" id="sqft" value="1,307" />
-      </div>
+      <div class="field"><label>Beds</label><input type="text" id="beds" value="3" /></div>
+      <div class="field"><label>Baths</label><input type="text" id="baths" value="2.5" /></div>
+      <div class="field"><label>Sq Ft</label><input type="text" id="sqft" value="1,307" /></div>
     </div>
-
+    <div class="field"><label>Advertised Rate</label><input type="text" id="rate" value="4.99%" /></div>
     <div class="field">
-      <label>Advertised Rate</label>
-      <input type="text" id="rate" value="4.99%" />
+      <label>Loan Term</label>
+      <select id="loanTerm">
+        <option value="30-Year Fixed" selected>30-Year Fixed</option>
+        <option value="7/1 ARM">7/1 ARM</option>
+        <option value="15-Year Fixed">15-Year Fixed</option>
+        <option value="FHA 30-Year Fixed">FHA 30-Year Fixed</option>
+      </select>
     </div>
-
     <div class="field">
       <label>Status Badge</label>
       <select id="statusBadge">
@@ -152,31 +120,25 @@
         <option value="Open House">Open House</option>
       </select>
     </div>
+    <div class="field"><label>Bottom Badge Text</label><input type="text" id="bottomBadge" value="New Construction - 2026" /></div>
+    <div class="field"><label>Detail Page URL (GitHub link)</label><input type="text" id="detailUrl" value="https://alen-cmd.github.io/Salishan-Listings/4749-Court-R.html" /></div>
+    <div class="field"><label>MLS Number</label><input type="text" id="mls" value="2480065" /></div>
 
-    <div class="field">
-      <label>Bottom Badge Text</label>
-      <input type="text" id="bottomBadge" value="New Construction · 2026" />
-    </div>
+    <h2 style="margin-top:20px;">Disclaimer Options</h2>
+    <div class="toggle-row"><label>Show original price (strikethrough)</label><label class="toggle"><input type="checkbox" id="showOrig" checked><span class="slider"></span></label></div>
+    <div class="toggle-row"><label>Show rate badge</label><label class="toggle"><input type="checkbox" id="showRate" checked><span class="slider"></span></label></div>
+    <div class="toggle-row"><label>Include APR disclosure</label><label class="toggle"><input type="checkbox" id="showAPR" checked><span class="slider"></span></label></div>
+    <div class="toggle-row"><label>Include program end language</label><label class="toggle"><input type="checkbox" id="showEnd" checked><span class="slider"></span></label></div>
+    <div class="toggle-row"><label>Include preferred lender language</label><label class="toggle"><input type="checkbox" id="showLender" checked><span class="slider"></span></label></div>
+    <div class="toggle-row"><label>Include credit score disclosure</label><label class="toggle"><input type="checkbox" id="showCredit" checked><span class="slider"></span></label></div>
 
-    <div class="field">
-      <label>MLS Number</label>
-      <input type="text" id="mls" value="2480065" />
-    </div>
+    <h2 style="margin-top:20px;">Disclaimer Preview</h2>
+    <div class="disc-preview"><strong>Your disclaimer will read:</strong><p id="discPreview"></p></div>
 
-    <div class="toggle-row">
-      <label>Show original price (strikethrough)</label>
-      <label class="toggle"><input type="checkbox" id="showOrig" checked onchange="updateCard()"><span class="slider"></span></label>
-    </div>
-    <div class="toggle-row">
-      <label>Show rate badge</label>
-      <label class="toggle"><input type="checkbox" id="showRate" checked onchange="updateCard()"><span class="slider"></span></label>
-    </div>
-
-    <button class="btn-update" onclick="updateCard()">&#8635; Update Card</button>
-    <button class="btn-download" onclick="downloadCard()">&#11015; Download Card (HTML)</button>
+    <button class="btn-update" onclick="updateCard()">Update Card</button>
+    <button class="btn-download" onclick="downloadCard()">Download Card (HTML)</button>
   </div>
 
-  <!-- CARD PREVIEW -->
   <div class="card-wrap">
     <div class="card-label">Live Preview</div>
     <div class="card" id="listingCard">
@@ -188,12 +150,12 @@
           <div class="rs">Available Now</div>
         </div>
         <div class="status-badge" id="cardStatus">Move-In Ready</div>
-        <div class="bottom-badge" id="cardBottom">New Construction · 2026</div>
+        <div class="bottom-badge" id="cardBottom">New Construction - 2026</div>
       </div>
       <div class="card-body">
-        <div class="comm" id="cardComm">Salishan · SE Tacoma</div>
+        <div class="comm" id="cardComm">Salishan - SE Tacoma</div>
         <div class="addr" id="cardAddr">4749 Court R</div>
-        <div class="city" id="cardCity">Tacoma, WA 98404</div>
+        <div class="city-line" id="cardCity">Tacoma, WA 98404</div>
         <div class="price-row">
           <span class="price-main" id="cardPrice">$469,000</span>
           <span class="price-orig" id="cardOrig">$495,000</span>
@@ -207,10 +169,10 @@
         <div class="hdiv2"></div>
         <div class="inc">
           <div class="inc-icon"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L9.8 6.2H14.5L10.6 9L12 13.5L8 10.8L4 13.5L5.4 9L1.5 6.2H6.2L8 1.5Z" fill="white"/></svg></div>
-          <div class="inc-text"><b>Builder incentives available:</b> Rate buydown &middot; Closing cost credit &middot; 0% down w/ preferred lender</div>
+          <div class="inc-text"><b>Builder incentives available:</b> Rate buydown - Closing cost credit - 0% down w/ preferred lender</div>
         </div>
-        <button class="cta-btn">View Details &amp; Schedule a Tour ›</button>
-        <div class="disc" id="cardDisc">*4.99% rate available through builder's preferred lender on a 7/1 ARM. Subject to credit approval and qualification. Rate may adjust after initial period. Contact agent for full program details. MLS# 2480065</div>
+        <a class="cta-btn" id="cardCTA" href="#">View Details &amp; Schedule a Tour</a>
+        <div class="disc" id="cardDisc"></div>
       </div>
     </div>
   </div>
@@ -218,6 +180,7 @@
 </div>
 
 <script>
+
   let currentImgData = null;
 
   function loadPhoto(e) {
@@ -230,142 +193,155 @@
       const preview = document.getElementById('photoPreview');
       preview.src = currentImgData;
       preview.style.display = 'block';
-      const p = document.querySelector('.photo-area p');
-      p.innerHTML = '<span>' + file.name + '</span>';
+      document.querySelector('.photo-area p').innerHTML = '<span>' + file.name + '</span>';
     };
     reader.readAsDataURL(file);
   }
 
   function fmt(val) {
     const n = parseFloat(val.toString().replace(/,/g,''));
-    if (isNaN(n)) return val;
-    return n.toLocaleString();
+    return isNaN(n) ? val : n.toLocaleString();
+  }
+
+  function buildDisclaimer() {
+    const rate       = document.getElementById('rate').value;
+    const term       = document.getElementById('loanTerm').value;
+    const mls        = document.getElementById('mls').value;
+    const showAPR    = document.getElementById('showAPR').checked;
+    const showEnd    = document.getElementById('showEnd').checked;
+    const showLender = document.getElementById('showLender').checked;
+    const showCredit = document.getElementById('showCredit').checked;
+    let parts = [];
+    parts.push(rate + ' interest rate is offered on a ' + term + ' loan.');
+    if (showAPR)    parts.push('Annual Percentage Rate (APR) will vary based on loan amount, down payment, credit profile, and market conditions at time of lock.');
+    if (showCredit) parts.push('Rate shown assumes a minimum 740 credit score and minimum 10% down payment. Buyers with different credit profiles may qualify for different rates.');
+    if (showLender) parts.push('Rate buydown is funded by builder and is available exclusively through Movement Mortgage, builder\'s preferred lender. Builder incentive does not apply when using outside financing.');
+    if (showEnd)    parts.push('This rate program is offered at the builder\'s sole discretion and may be modified, suspended, or withdrawn at any time without prior notice. Rate availability is subject to market conditions and program funding limits.');
+    parts.push('Not a commitment to lend. Subject to credit approval and underwriting guidelines. MLS# ' + mls + '.');
+    return parts.join(' ');
   }
 
   function updateCard() {
-    document.getElementById('cardComm').textContent = document.getElementById('community').value;
-    document.getElementById('cardAddr').textContent = document.getElementById('address').value;
-    document.getElementById('cardCity').textContent = document.getElementById('city').value;
-    document.getElementById('cardPrice').textContent = '$' + fmt(document.getElementById('price').value);
-    document.getElementById('cardBeds').textContent = document.getElementById('beds').value;
-    document.getElementById('cardBaths').textContent = document.getElementById('baths').value;
-    document.getElementById('cardSqft').textContent = fmt(document.getElementById('sqft').value);
+    document.getElementById('cardComm').textContent   = document.getElementById('community').value;
+    document.getElementById('cardAddr').textContent   = document.getElementById('address').value;
+    document.getElementById('cardCity').textContent   = document.getElementById('city').value;
+    document.getElementById('cardPrice').textContent  = '$' + fmt(document.getElementById('price').value);
+    document.getElementById('cardBeds').textContent   = document.getElementById('beds').value;
+    document.getElementById('cardBaths').textContent  = document.getElementById('baths').value;
+    document.getElementById('cardSqft').textContent   = fmt(document.getElementById('sqft').value);
     document.getElementById('cardStatus').textContent = document.getElementById('statusBadge').value;
     document.getElementById('cardBottom').textContent = document.getElementById('bottomBadge').value;
-    document.getElementById('cardRate').textContent = document.getElementById('rate').value;
-
+    document.getElementById('cardRate').textContent   = document.getElementById('rate').value;
+    document.getElementById('cardCTA').href           = document.getElementById('detailUrl').value;
     const showOrig = document.getElementById('showOrig').checked;
-    const origEl = document.getElementById('cardOrig');
-    if (showOrig) {
-      origEl.textContent = '$' + fmt(document.getElementById('origPrice').value);
-      origEl.style.display = 'inline';
-    } else {
-      origEl.style.display = 'none';
-    }
-
-    const showRate = document.getElementById('showRate').checked;
-    document.getElementById('rateBadge').style.display = showRate ? 'block' : 'none';
-
-    const rate = document.getElementById('rate').value;
-    const mls = document.getElementById('mls').value;
-    document.getElementById('cardDisc').textContent =
-      '*' + rate + ' rate available through builder\'s preferred lender on a 7/1 ARM. Subject to credit approval and qualification. Rate may adjust after initial period. Contact agent for full program details. MLS# ' + mls;
+    const origEl   = document.getElementById('cardOrig');
+    origEl.textContent   = '$' + fmt(document.getElementById('origPrice').value);
+    origEl.style.display = showOrig ? 'inline' : 'none';
+    document.getElementById('rateBadge').style.display = document.getElementById('showRate').checked ? 'block' : 'none';
+    const disc = buildDisclaimer();
+    document.getElementById('cardDisc').textContent  = '*' + disc;
+    document.getElementById('discPreview').textContent = disc;
   }
 
   function downloadCard() {
     updateCard();
-    const imgSrc = document.getElementById('cardImg').src;
-    const comm = document.getElementById('community').value;
-    const addr = document.getElementById('address').value;
-    const city = document.getElementById('city').value;
-    const price = '$' + fmt(document.getElementById('price').value);
+    const imgSrc    = document.getElementById('cardImg').src;
+    const comm      = document.getElementById('community').value;
+    const addr      = document.getElementById('address').value;
+    const city      = document.getElementById('city').value;
+    const price     = '$' + fmt(document.getElementById('price').value);
     const origPrice = '$' + fmt(document.getElementById('origPrice').value);
-    const showOrig = document.getElementById('showOrig').checked;
-    const beds = document.getElementById('beds').value;
-    const baths = document.getElementById('baths').value;
-    const sqft = fmt(document.getElementById('sqft').value);
-    const rate = document.getElementById('rate').value;
-    const status = document.getElementById('statusBadge').value;
-    const bottomBadge = document.getElementById('bottomBadge').value;
-    const mls = document.getElementById('mls').value;
-    const showRate = document.getElementById('showRate').checked;
-    const disc = rate + ' rate available through builder\'s preferred lender on a 7/1 ARM. Subject to credit approval and qualification. Rate may adjust after initial period. Contact agent for full program details. MLS# ' + mls;
+    const showOrig  = document.getElementById('showOrig').checked;
+    const beds      = document.getElementById('beds').value;
+    const baths     = document.getElementById('baths').value;
+    const sqft      = fmt(document.getElementById('sqft').value);
+    const rate      = document.getElementById('rate').value;
+    const status    = document.getElementById('statusBadge').value;
+    const bottom    = document.getElementById('bottomBadge').value;
+    const showRate  = document.getElementById('showRate').checked;
+    const detailUrl = document.getElementById('detailUrl').value;
+    const disc      = buildDisclaimer();
 
-    const html = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><title>${addr} — ${comm}</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:#F3F4F6;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Helvetica Neue',Arial,sans-serif;padding:40px 20px;}
-.card{width:380px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.10);}
-.img-wrap{position:relative;height:230px;overflow:hidden;background:#1a2e44;}
-.prop-img{width:100%;height:100%;object-fit:cover;display:block;}
-.rate-badge{position:absolute;top:14px;left:14px;background:#1B4F8A;color:#fff;border-radius:10px;padding:8px 13px;display:${showRate?'block':'none'};}
-.rl{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;opacity:.8;margin-bottom:1px;}
-.rn{font-size:25px;font-weight:700;line-height:1;letter-spacing:-.5px;}
-.rs{font-size:10px;opacity:.75;margin-top:2px;}
-.status-badge{position:absolute;top:14px;right:14px;background:#16a34a;color:#fff;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 9px;border-radius:6px;}
-.bottom-badge{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,.52);color:#fff;font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;padding:4px 9px;border-radius:5px;}
-.card-body{padding:18px 20px 20px;}
-.comm{font-size:10.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#1B4F8A;margin-bottom:5px;}
-.addr{font-size:18px;font-weight:700;color:#111827;line-height:1.2;margin-bottom:2px;}
-.city{font-size:13px;color:#6B7280;margin-bottom:12px;}
-.price-row{display:flex;align-items:baseline;gap:9px;margin-bottom:14px;}
-.price-main{font-size:26px;font-weight:700;color:#111827;}
-.price-orig{font-size:13px;color:#9CA3AF;text-decoration:line-through;display:${showOrig?'inline':'none'};}
-.hdiv{height:1px;background:#D1D5DB;margin-bottom:14px;}
-.specs{display:flex;}
-.spec{flex:1;text-align:center;padding:4px 0;}
-.spec:not(:last-child){border-right:2px solid #D1D5DB;}
-.sv{font-size:15px;font-weight:700;color:#111827;}
-.sl{font-size:10px;color:#6B7280;margin-top:1px;text-transform:uppercase;letter-spacing:.5px;}
-.hdiv2{height:1px;background:#D1D5DB;margin:14px 0;}
-.inc{display:flex;align-items:flex-start;gap:8px;background:#EFF6FF;border-radius:8px;padding:10px 12px;margin-bottom:13px;}
-.inc-icon{width:26px;height:26px;min-width:26px;background:#1B4F8A;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.inc-text{font-size:11.5px;color:#1e40af;font-weight:500;line-height:1.45;}
-.inc-text b{font-weight:700;}
-.cta-btn{display:block;width:100%;background:#1B4F8A;color:#fff;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;}
-.disc{font-size:9px;color:#9CA3AF;margin-top:9px;line-height:1.5;text-align:center;}
-</style></head><body>
-<div class="card">
-  <div class="img-wrap">
-    <img class="prop-img" src="${imgSrc}" alt="${addr}" />
-    <div class="rate-badge"><div class="rl">Builder Rate</div><div class="rn">${rate}</div><div class="rs">Available Now</div></div>
-    <div class="status-badge">${status}</div>
-    <div class="bottom-badge">${bottomBadge}</div>
-  </div>
-  <div class="card-body">
-    <div class="comm">${comm}</div>
-    <div class="addr">${addr}</div>
-    <div class="city">${city}</div>
-    <div class="price-row"><span class="price-main">${price}</span><span class="price-orig">${origPrice}</span></div>
-    <div class="hdiv"></div>
-    <div class="specs">
-      <div class="spec"><div class="sv">${beds}</div><div class="sl">Beds</div></div>
-      <div class="spec"><div class="sv">${baths}</div><div class="sl">Baths</div></div>
-      <div class="spec"><div class="sv">${sqft}</div><div class="sl">Sq Ft</div></div>
-    </div>
-    <div class="hdiv2"></div>
-    <div class="inc">
-      <div class="inc-icon"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L9.8 6.2H14.5L10.6 9L12 13.5L8 10.8L4 13.5L5.4 9L1.5 6.2H6.2L8 1.5Z" fill="white"/></svg></div>
-      <div class="inc-text"><b>Builder incentives available:</b> Rate buydown &middot; Closing cost credit &middot; 0% down w/ preferred lender</div>
-    </div>
-    <button class="cta-btn">View Details &amp; Schedule a Tour &rsaquo;</button>
-    <div class="disc">*${disc}</div>
-  </div>
-</div>
-</body></html>`;
+    const origDisplay  = showOrig  ? 'inline' : 'none';
+    const rateDisplay  = showRate  ? 'block'  : 'none';
 
-    const blob = new Blob([html], {type: 'text/html'});
+    const cardHTML = [
+      '<!DOCTYPE html>',
+      '<html lang="en"><head><meta charset="UTF-8"><title>' + addr + '</title>',
+      '<style>',
+      '*{margin:0;padding:0;box-sizing:border-box;}',
+      'body{background:#F3F4F6;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:Helvetica Neue,Arial,sans-serif;padding:40px 20px;}',
+      '.card{width:380px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.10);}',
+      '.img-wrap{position:relative;height:230px;overflow:hidden;background:#1a2e44;}',
+      '.prop-img{width:100%;height:100%;object-fit:cover;display:block;}',
+      '.rate-badge{position:absolute;top:14px;left:14px;background:#1B4F8A;color:#fff;border-radius:10px;padding:8px 13px;display:' + rateDisplay + ';}',
+      '.rl{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;opacity:.8;margin-bottom:1px;}',
+      '.rn{font-size:25px;font-weight:700;line-height:1;letter-spacing:-.5px;}',
+      '.rs{font-size:10px;opacity:.75;margin-top:2px;}',
+      '.status-badge{position:absolute;top:14px;right:14px;background:#16a34a;color:#fff;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 9px;border-radius:6px;}',
+      '.bottom-badge{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,.52);color:#fff;font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;padding:4px 9px;border-radius:5px;}',
+      '.card-body{padding:18px 20px 20px;}',
+      '.comm{font-size:10.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#1B4F8A;margin-bottom:5px;}',
+      '.addr{font-size:18px;font-weight:700;color:#111827;line-height:1.2;margin-bottom:2px;}',
+      '.city{font-size:13px;color:#6B7280;margin-bottom:12px;}',
+      '.price-row{display:flex;align-items:baseline;gap:9px;margin-bottom:14px;}',
+      '.price-main{font-size:26px;font-weight:700;color:#111827;}',
+      '.price-orig{font-size:13px;color:#9CA3AF;text-decoration:line-through;display:' + origDisplay + ';}',
+      '.hdiv{height:1px;background:#D1D5DB;margin-bottom:14px;}',
+      '.specs{display:flex;}',
+      '.spec{flex:1;text-align:center;padding:4px 0;}',
+      '.spec:not(:last-child){border-right:2px solid #D1D5DB;}',
+      '.sv{font-size:15px;font-weight:700;color:#111827;}',
+      '.sl{font-size:10px;color:#6B7280;margin-top:1px;text-transform:uppercase;letter-spacing:.5px;}',
+      '.hdiv2{height:1px;background:#D1D5DB;margin:14px 0;}',
+      '.inc{display:flex;align-items:flex-start;gap:8px;background:#EFF6FF;border-radius:8px;padding:10px 12px;margin-bottom:13px;}',
+      '.inc-icon{width:26px;height:26px;min-width:26px;background:#1B4F8A;border-radius:50%;display:flex;align-items:center;justify-content:center;}',
+      '.inc-text{font-size:11.5px;color:#1e40af;font-weight:500;line-height:1.45;}',
+      '.inc-text b{font-weight:700;}',
+      '.cta-btn{display:block;width:100%;background:#1B4F8A;color:#fff;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;text-decoration:none;}',
+      '.disc{font-size:9px;color:#9CA3AF;margin-top:9px;line-height:1.6;text-align:center;}',
+      '</style></head><body>',
+      '<div class="card">',
+      '<div class="img-wrap">',
+      '<img class="prop-img" src="' + imgSrc + '" alt="' + addr + '" />',
+      '<div class="rate-badge"><div class="rl">Builder Rate</div><div class="rn">' + rate + '</div><div class="rs">Available Now</div></div>',
+      '<div class="status-badge">' + status + '</div>',
+      '<div class="bottom-badge">' + bottom + '</div>',
+      '</div>',
+      '<div class="card-body">',
+      '<div class="comm">' + comm + '</div>',
+      '<div class="addr">' + addr + '</div>',
+      '<div class="city">' + city + '</div>',
+      '<div class="price-row"><span class="price-main">' + price + '</span><span class="price-orig">' + origPrice + '</span></div>',
+      '<div class="hdiv"></div>',
+      '<div class="specs">',
+      '<div class="spec"><div class="sv">' + beds + '</div><div class="sl">Beds</div></div>',
+      '<div class="spec"><div class="sv">' + baths + '</div><div class="sl">Baths</div></div>',
+      '<div class="spec"><div class="sv">' + sqft + '</div><div class="sl">Sq Ft</div></div>',
+      '</div>',
+      '<div class="hdiv2"></div>',
+      '<div class="inc"><div class="inc-icon"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L9.8 6.2H14.5L10.6 9L12 13.5L8 10.8L4 13.5L5.4 9L1.5 6.2H6.2L8 1.5Z" fill="white"/></svg></div>',
+      '<div class="inc-text"><b>Builder incentives available:</b> Rate buydown &middot; Closing cost credit &middot; 0% down w/ preferred lender</div></div>',
+      '<a class="cta-btn" href="' + detailUrl + '">View Details &amp; Schedule a Tour</a>',
+      '<div class="disc">*' + disc + '</div>',
+      '</div></div>',
+      '</body></html>'
+    ].join('\n');
+
+    const blob = new Blob([cardHTML], {type: 'text/html'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = addr.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'') + '-listing-card.html';
+    a.download = addr.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '') + '-listing-card.html';
     a.click();
   }
 
-  // Live update on any input change
-  document.querySelectorAll('input[type="text"], input[type="number"], select').forEach(el => {
+  document.querySelectorAll('input, select, textarea').forEach(function(el) {
     el.addEventListener('input', updateCard);
+    el.addEventListener('change', updateCard);
   });
+
+  updateCard();
+
 </script>
 </body>
 </html>
