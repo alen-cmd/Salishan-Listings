@@ -152,13 +152,14 @@ iframe{flex:1;border:none;background:#fff;}
     <button class="add-btn" onclick="addFeat('extFeatures')">+ Add Feature</button>
   </div>
 
-  <div class="section-head">Contact / Agent</div>
+  <div class="section-head">Builder Contact</div>
   <div class="fields">
-    <div class="field"><label>Agent Name</label><input type="text" id="agentName" value="Anisa Ozegovic"></div>
-    <div class="field"><label>Agent Phone</label><input type="text" id="agentPhone" value="(206) 859-0014"></div>
-    <div class="field"><label>Agent Email</label><input type="text" id="agentEmail" value=""></div>
-    <div class="field"><label>Brokerage</label><input type="text" id="brokerage" value="Kelly Right RE of Seattle LLC"></div>
-    <div class="field"><label>Compensation</label><input type="text" id="comp" value="2.5%"></div>
+    <div style="background:#EFF6FF;border-radius:8px;padding:12px;font-size:12px;color:#1e40af;line-height:1.6;">
+      <strong style="display:block;margin-bottom:4px;">Cold Creek Homes</strong>
+      Phone: (425) 364-6054<br>
+      Email: salishan@coldcreekhomes.com<br><br>
+      <span style="color:#6B7280;">Contact info is fixed on all pages. Toggle the contact card on/off below.</span>
+    </div>
   </div>
 
   <div class="section-head">Disclaimer Options</div>
@@ -299,14 +300,7 @@ function buildPageHTML() {
   var inc3      = g('inc3');
   var inc4      = g('inc4');
   var desc      = g('description');
-  var agentName = g('agentName');
-  var agentPhone= g('agentPhone');
-  var agentEmail= g('agentEmail');
-  var brokerage = g('brokerage');
-  var comp      = g('comp');
   var disc      = buildDisclaimer();
-
-  var initials = agentName.split(' ').map(function(n){ return n[0]; }).slice(0,2).join('');
 
   var galleryHTML = '';
   if (galleryPhotos.length > 0) {
@@ -379,27 +373,28 @@ function buildPageHTML() {
   var agentHTML = '';
   if (showAgent) {
     agentHTML = '<div style="border:1px solid #E5E7EB;border-radius:12px;padding:20px 24px;margin-bottom:32px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;">'
-      + '<div style="width:52px;height:52px;background:#1B4F8A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;">' + initials + '</div>'
-      + '<div style="flex:1;min-width:160px;"><div style="font-size:15px;font-weight:700;color:#111827;">' + agentName + '</div>'
-      + '<div style="font-size:12px;color:#6B7280;">' + brokerage + '</div>'
-      + '<div style="font-size:12px;color:#6B7280;margin-top:2px;">Buyer agent compensation: ' + comp + '</div></div>'
+      + '<div style="width:52px;height:52px;background:#1B4F8A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0;">CCH</div>'
+      + '<div style="flex:1;min-width:160px;">'
+      + '<div style="font-size:15px;font-weight:700;color:#111827;">Cold Creek Homes</div>'
+      + '<div style="font-size:12px;color:#6B7280;">Builder &amp; Developer</div>'
+      + '<div style="font-size:12px;color:#6B7280;margin-top:2px;">Questions about this home or the rate program? Contact us directly.</div>'
+      + '</div>'
       + '<div style="display:flex;gap:10px;flex-wrap:wrap;">'
-      + '<a href="tel:' + agentPhone + '" style="display:inline-flex;align-items:center;gap:6px;background:#1B4F8A;color:#fff;text-decoration:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;">'
+      + '<a href="tel:4253646054" style="display:inline-flex;align-items:center;gap:6px;background:#1B4F8A;color:#fff;text-decoration:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;">'
       + '<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 2h3l1.5 3.5-1.8 1.1A10 10 0 008.4 10l1.1-1.8L13 9.5v3a1 1 0 01-1 1C5.4 13.5 2.5 7.6 2 4a1 1 0 011-2z" fill="white"/></svg>'
-      + agentPhone + '</a>'
-      + (agentEmail ? '<a href="mailto:' + agentEmail + '" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #1B4F8A;color:#1B4F8A;text-decoration:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;">Email Agent</a>' : '')
+      + '(425) 364-6054</a>'
+      + '<a href="mailto:salishan@coldcreekhomes.com" style="display:inline-flex;align-items:center;gap:6px;border:1px solid #1B4F8A;color:#1B4F8A;text-decoration:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;">salishan@coldcreekhomes.com</a>'
       + '</div></div>';
   }
 
   var origPriceHTML = showOrig ? '<div style="font-size:14px;opacity:0.65;text-decoration:line-through;margin-bottom:4px;">' + origPrice + '</div>' : '';
 
-  // specs bar — 5 items, NO lot size
+  // specs bar — 4 items, NO lot size, NO HOA
   var specsBar = '<div style="display:flex;background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:20px;gap:0;margin-bottom:28px;">'
     + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + beds + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Bedrooms</div></div>'
     + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + baths + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Bathrooms</div></div>'
     + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + sqft + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Sq Ft</div></div>'
-    + '<div style="flex:1;text-align:center;border-right:1px solid #E5E7EB;"><div style="font-size:22px;font-weight:700;color:#111827;">' + yr + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Year Built</div></div>'
-    + '<div style="flex:1;text-align:center;"><div style="font-size:22px;font-weight:700;color:#111827;">' + hoa + '/mo</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">HOA Dues</div></div>'
+    + '<div style="flex:1;text-align:center;"><div style="font-size:22px;font-weight:700;color:#111827;">' + yr + '</div><div style="font-size:11px;color:#6B7280;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;">Year Built</div></div>'
     + '</div>';
 
   return '<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">\n'
